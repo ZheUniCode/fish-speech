@@ -118,3 +118,13 @@ ffprobe.exe
 # ----------
 /*.test.sh
 asr-label*
+bin/python3.12
+bin/python
+bin/pip3
+bin/python3
+bin/pip3.12
+bin/pip
+bin/Activate.ps1
+bin/activate.fish
+bin/activate
+bin/activate.csh
