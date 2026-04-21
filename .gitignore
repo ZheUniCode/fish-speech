@@ -48,12 +48,18 @@ MANIFEST
 # --------------------
 .env
 .venv
+.kokoro-venv/
+.kokoro-venv-new/
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
 /fishenv/
+
+# Generated Outputs
+# -----------------
+outputs/
 
 # Project Dependencies
 # --------------------

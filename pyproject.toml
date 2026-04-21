@@ -46,6 +46,7 @@ dependencies = [
     "pydantic==2.9.2",
     "cachetools",
     "descript-audio-codec",
+    "pypdf>=5.0.0",
     "safetensors"
 ]
 

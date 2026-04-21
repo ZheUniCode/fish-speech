@@ -491,8 +491,34 @@ function App() {
         body: JSON.stringify(buildRequestPayload(inputText, controls, speakerGroups)),
       })
 
-      if (!response.ok || !response.body) {
-        throw new Error('Failed to generate audio')
+      if (!response.ok) {
+        let detail = ''
+        try {
+          const contentType = response.headers.get('content-type') || ''
+          if (contentType.includes('application/json')) {
+            const data = await response.json()
+            if (typeof data?.error === 'string' && data.error.trim()) {
+              detail = data.error.trim()
+            } else if (typeof data?.content === 'string' && data.content.trim()) {
+              detail = data.content.trim()
+            } else if (typeof data?.message === 'string' && data.message.trim()) {
+              detail = data.message.trim()
+            }
+          } else {
+            const text = (await response.text()).trim()
+            if (text) {
+              detail = text
+            }
+          }
+        } catch {
+          // Ignore parsing errors and fall back to status text.
+        }
+
+        throw new Error(detail || response.statusText || 'Failed to generate audio')
+      }
+
+      if (!response.body) {
+        throw new Error('Server returned an empty audio response')
       }
 
       const reader = response.body.getReader()
