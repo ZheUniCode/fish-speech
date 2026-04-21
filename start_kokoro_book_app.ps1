@@ -81,14 +81,13 @@ Start-Process "http://127.0.0.1:$Port" | Out-Null
 $safeRepo = Escape-ForBashSingleQuote $wslRepo
 
 $cmd = "cd '$safeRepo' || exit 1; " +
-             "set -e; " +
-             "kokoro_venv=\"$HOME/.venvs/fish-kokoro\"; " +
-             "mkdir -p \"$HOME/.venvs\"; " +
-             "if [ ! -f \"$kokoro_venv/bin/activate\" ]; then rm -rf \"$kokoro_venv\"; python3 -m venv \"$kokoro_venv\"; fi; " +
-             "source \"$kokoro_venv/bin/activate\"; " +
-             "python -m pip install -q --upgrade pip || exit 1; " +
-             "python -m pip install -q 'kokoro>=0.9.4' soundfile gradio numpy || exit 1; " +
-             "if ! command -v espeak-ng >/dev/null 2>&1; then echo '[kokoro-book] Warning: espeak-ng not found. Install for best language fallback.'; fi; " +
+             'set -e; ' +
+             'mkdir -p "$HOME/.venvs"; ' +
+             'if [ ! -f "$HOME/.venvs/fish-kokoro/bin/activate" ]; then rm -rf "$HOME/.venvs/fish-kokoro"; python3 -m venv "$HOME/.venvs/fish-kokoro"; fi; ' +
+             'source "$HOME/.venvs/fish-kokoro/bin/activate"; ' +
+             'python -m pip install -q --upgrade pip || exit 1; ' +
+             'python -m pip install -q ''kokoro>=0.9.4'' soundfile gradio numpy pypdf || exit 1; ' +
+             'if ! command -v espeak-ng >/dev/null 2>&1; then echo ''[kokoro-book] Warning: espeak-ng not found. Install for best language fallback.''; fi; ' +
              "exec python tools/run_kokoro_book_webui.py --listen 0.0.0.0:$Port"
 
 & wsl -d $Distro bash -lc $cmd
